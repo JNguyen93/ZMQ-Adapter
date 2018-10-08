@@ -89,7 +89,11 @@ mqtt.connect()
 
 # Set ZMQ subscriptions
 for topic in zmq_incoming_subscriptions:
-    zmq_sub_sock.setsockopt_string(zmq.SUBSCRIBE, topic)
+    try:
+        sock.setsockopt(zmq.SUBSCRIBE, b'value')
+    except TypeError:
+        sock.setsockopt_string(zmq.SUBSCRIBE, b'value')
+
 
 # Connect to ZMQ clients
 for client in zmq_clients:
